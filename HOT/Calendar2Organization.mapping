@@ -1,0 +1,84 @@
+MappingModel "Calendar2Organization"
+SourceMetamodels {  calendar }
+TargetMetamodels { organization }
+MappingRules {
+	source calendar.Calendar target organization.Organization  {
+		source calendar.Person.name target calendar.Person.name;
+		source calendar.Calendar.division target organization.Organization.department;
+		source calendar.Division.notaskpersonnel target organization.Organization.personnel operator add;
+		source  calendar.Division.meeting {
+			source calendar.Participant.notavailable target organization.Organization.personnel operator add
+			condition "select (n : NotAvailable | n.surname != null)"} ;
+		source calendar.Division.meeting {
+			source calendar.Participant.internalparticipant target organization.Organization.personnel operator add}} ;
+	source calendar.Division target organization.Department {
+		source calendar.Person.name target calendar.Person.name
+	}
+			
+			{
+	statement "self.meeting -> forEach (meeting)" {
+		statement " if (not result.project -> exists(p : Project | p.name = meeting.name.substringBefore(\"_\")))" {
+			target organization.Department.project operator add {
+				source calendar.Division.meeting {
+					source calendar.Person.name target organization.NamedElement.name
+					condition "substringBefore(\"_\")";
+					source calendar.Participant.notavailable target organization.Project.partner operator add
+					condition "select (n : NotAvailable | n.surname -> isEmpty() and n.participant.meeting.name.substringBefore(\"_\")= name)";
+					source calendar.Participant.externalparticipant target organization.Project.partner operator add
+					condition "select (e : ExternalParticipant  | e.participant.meeting.name.substringBefore(\"_\") =name)"
+				};
+				source calendar.Division.meeting target organization.Project.workpackage operator add
+				condition "select (m : Meeting | m.name.substringBefore(\"_\") = name)"
+			}
+		}
+	}  
+		} ;
+	source calendar.ActiveMeeting target organization.WorkPackage {
+		source organization.Status::ACTIVE target organization.WorkPackage.status
+	} ;
+	source calendar.NonActiveMeeting target organization.WorkPackage {
+		source organization.Status :: NONACTIVE target organization.WorkPackage.status
+	} ;
+	source calendar.InternalParticipant target organization.Person {
+		source calendar.Person.name target calendar.Person.name;
+		source calendar.InternalParticipant.surname target calendar.InternalParticipant.surname;
+		source calendar.InternalParticipant.item target organization.Person.task;
+		source calendar.InternalParticipant.participantsDivision target organization.Organization.department
+	};
+	source calendar.NoTaskPersonnel target organization.Person {
+		source calendar.Person.name target calendar.Person.name;
+		source calendar.InternalParticipant.surname target calendar.InternalParticipant.surname;
+		source calendar.NoTaskPersonnel.division target organization.Organization.department
+	};
+	source calendar.ExternalParticipant target organization.Partner {
+		source calendar.Person.name target calendar.Person.name;
+		source organization.Availability :: AVAILABLE target organization.Person.availability
+	};
+	source calendar.NotAvailable target organization.Person {
+		source calendar.Person.name target calendar.Person.name;
+		source calendar.InternalParticipant.surname target calendar.InternalParticipant.surname;
+		source calendar.NotAvailable.item target organization.Person.task;
+		source calendar.NotAvailable.division target organization.Organization.department;
+		source organization.Availability :: ONVACATION target organization.Person.availability
+	};
+	source calendar.NotAvailable target organization.Partner {
+		source calendar.Person.name target organization.NamedElement.name;
+		source organization.Availability :: ONVACATION target organization.Person.availability
+	} ;
+	source calendar.Meeting target organization.WorkPackage {
+		source calendar.Person.name target calendar.Person.name
+		condition "substringAfter(\"_\")" ;
+		source calendar.Meeting.agenda {
+			source calendar.Agenda.item target organization.Person.task
+		}
+	} ;
+	source calendar.Item target organization.Task {
+		source calendar.Person.name target calendar.Person.name ;
+		source calendar.Item.externalparticipant target organization.Task.taskPartners operator add ;
+		source calendar.Item.notavailable target organization.Task.taskPartners operator add
+		condition "select (n : NotAvailable | n.surname -> isEmpty())" ;
+		source calendar.Item.internalparticipant target organization.Task.internalMember
+		operator add
+		condition "select(i : InternalParticipant | i.participant.meeting.name.substringAfter(\"_\") = result.workpackage.name)"
+	}
+}

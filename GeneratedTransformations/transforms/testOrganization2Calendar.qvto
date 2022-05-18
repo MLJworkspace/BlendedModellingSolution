@@ -1,0 +1,91 @@
+modeltype organization uses 'http://www.example.org/organization';
+modeltype calendar uses 'http://www.example.org/calendar';
+
+transformation Organization2Cal( in organizationModel:organization, out calendarModel:calendar);
+main() {
+organizationModel.rootObjects()[organization::Organization] -> map Organization2Calendar();
+}
+mapping organization :: Organization :: Organization2Calendar() : calendar :: Calendar
+{
+    result.name := self.name;
+    result.division := self.department -> map Department2Division();
+}
+mapping organization :: Department :: Department2Division() : calendar :: Division
+{
+    result.name := self.name;
+    result.notaskpersonnel += self.organization.personnel -> select (p : Person | p.department.name = self.name and p.task -> isEmpty()).map Person2NoTaskPersonnel();
+    result.meeting := self.project.workpackage -> map WorkPackage2MeetingDisjunct();
+}
+mapping organization :: WorkPackage :: WorkPackage2ActiveMeeting() : calendar :: ActiveMeeting
+inherits organization :: WorkPackage :: WorkPackage2Meeting
+when {self.status = Status::ACTIVE}
+{
+}
+mapping organization :: WorkPackage :: WorkPackage2NonActiveMeeting() : calendar :: NonActiveMeeting
+inherits organization :: WorkPackage :: WorkPackage2Meeting
+when {self.status = Status::NONACTIVE}
+{
+}
+mapping organization :: Partner :: Partner2NotAvailable() : calendar :: NotAvailable
+when {self.availability = Availability :: ONVACATION}
+{
+    result.name := self.name;
+    result.item := self.task -> map Task2Item();
+}
+mapping organization :: Person :: Person2NoTaskPersonnel() : calendar :: NoTaskPersonnel
+when {self.task -> isEmpty()}
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.division := self.department.map Department2Division();
+}
+mapping organization :: Person :: Person2NotAvailable() : calendar :: NotAvailable
+when {self.availability = Availability :: ONVACATION}
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.division := self.department.map Department2Division();
+}
+mapping organization :: Task :: Task2Item() : calendar :: Item
+{
+    result.name := self.name;
+    result.externalparticipant := self.taskPartners -> map Partner2ExternalParticipant();
+    result.internalparticipant := self.internalMember -> select (p:Person | p.availability = Availability :: AVAILABLE).map Person2InternalParticipant();
+    result.notavailable := self.internalMember -> select (p:Person | p.availability = Availability :: ONVACATION).map Person2NotAvailable();
+}
+mapping organization :: Person :: Person2InternalParticipant() : calendar :: InternalParticipant
+when {self.availability = Availability :: AVAILABLE}
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.participantsDivision := self.department.map Department2Division();
+}
+mapping organization :: Partner :: Partner2ExternalParticipant() : calendar :: ExternalParticipant
+when {self.availability = Availability :: AVAILABLE}
+{
+    result.name := self.name;
+    result.item := self.task -> map Task2Item();
+}
+
+mapping organization :: WorkPackage :: WorkPackage2MeetingDisjunct() : calendar :: Meeting
+disjuncts organization :: WorkPackage :: WorkPackage2ActiveMeeting, organization :: WorkPackage :: WorkPackage2NonActiveMeeting{}
+
+mapping organization :: WorkPackage :: WorkPackage2Meeting() : calendar :: Meeting
+{
+    if (not self.task -> isEmpty()){
+        var AgendaObject := object calendar :: Agenda{
+        item := self.task -> map Task2Item();
+    };
+    agenda := AgendaObject;
+    }; 
+    if ((not self.task.taskPartners -> isEmpty()) or (not self.task.internalMember -> isEmpty())){
+        var ParticipantObject := object calendar :: Participant{
+        externalparticipant += self.task.taskPartners -> map Partner2ExternalParticipant();
+        notavailable += self.task.taskPartners -> map Partner2NotAvailable();
+        internalparticipant += self.task.internalMember -> map Person2InternalParticipant();
+        notavailable += self.task.internalMember -> map Person2NotAvailable();
+    };
+    participant := ParticipantObject;
+    }; 
+        name := self.project.name.+("_" + self.name);
+}

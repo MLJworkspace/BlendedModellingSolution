@@ -1,0 +1,88 @@
+modeltype organization uses 'http://www.example.org/organization';
+modeltype calendar uses 'http://www.example.org/calendar';
+
+transformation Calendar2Organization( in calendarModel:calendar, out organizationModel:organization);
+main() {
+calendarModel.rootObjects()[calendar::Calendar] -> map Calendar2Organization();
+}
+mapping calendar :: Calendar :: Calendar2Organization() : organization :: Organization
+{
+    result.name := self.name;
+    result.department := self.division -> map Division2Department();
+    result.personnel += self.division.notaskpersonnel -> map NoTaskPersonnel2Person();
+    result.personnel += self.division.meeting.participant.notavailable -> select (n : NotAvailable | n.surname != null).map NotAvailable2Person();
+    result.personnel += self.division.meeting.participant.internalparticipant -> map InternalParticipant2Person();
+}
+mapping calendar :: Division :: Division2Department() : organization :: Department
+{
+    self.meeting -> forEach (meeting){
+         if (not result.project -> exists(p : Project | p.name = meeting.name.substringBefore("_"))){
+              var ProjectObject := object organization :: Project{
+        name := meeting.name.substringBefore("_");
+        partner += self.meeting.participant.notavailable -> select (n : NotAvailable | n.surname -> isEmpty() and n.participant.meeting.name.substringBefore("_")= name).map NotAvailable2Partner();
+        partner += self.meeting.participant.externalparticipant -> select (e : ExternalParticipant  | e.participant.meeting.name.substringBefore("_") =name).map ExternalParticipant2Partner();
+        workpackage += self.meeting -> select (m : Meeting | m.name.substringBefore("_") = name) -> map Meeting2WorkPackageDisjunct();
+    };
+    project += ProjectObject;
+        }; 
+    }; 
+    result.name := self.name;
+}
+mapping calendar :: ActiveMeeting :: ActiveMeeting2WorkPackage() : organization :: WorkPackage
+inherits calendar :: Meeting :: Meeting2WorkPackage
+{
+    result.status := Status :: ACTIVE;
+}
+mapping calendar :: NonActiveMeeting :: NonActiveMeeting2WorkPackage() : organization :: WorkPackage
+inherits calendar :: Meeting :: Meeting2WorkPackage
+{
+    result.status := Status :: NONACTIVE;
+}
+mapping calendar :: InternalParticipant :: InternalParticipant2Person() : organization :: Person
+
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.task := self.item -> map Item2Task();
+    result.department := self.participantsDivision.map Division2Department();
+}
+mapping calendar :: NoTaskPersonnel :: NoTaskPersonnel2Person() : organization :: Person
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.department := self.division.map Division2Department();
+}
+mapping calendar :: ExternalParticipant :: ExternalParticipant2Partner() : organization :: Partner
+{
+    result.name := self.name;
+    result.availability := Availability :: AVAILABLE;
+}
+mapping calendar :: NotAvailable :: NotAvailable2Person() : organization :: Person
+{
+    result.name := self.name;
+    result.surname := self.surname;
+    result.task := self.item -> map Item2Task();
+    result.department := self.division.map Division2Department();
+    result.availability := Availability :: ONVACATION;
+}
+mapping calendar :: NotAvailable :: NotAvailable2Partner() : organization :: Partner
+{
+    result.name := self.name;
+    result.availability := Availability :: ONVACATION;
+}
+
+mapping calendar :: Meeting :: Meeting2WorkPackageDisjunct() : organization :: WorkPackage
+disjuncts calendar :: ActiveMeeting :: ActiveMeeting2WorkPackage, calendar :: NonActiveMeeting :: NonActiveMeeting2WorkPackage{}
+
+mapping calendar :: Meeting :: Meeting2WorkPackage() : organization :: WorkPackage
+{
+    result.name := self.name.substringAfter("_");
+    result.task := self.agenda.item -> map Item2Task();
+}
+mapping calendar :: Item :: Item2Task() : organization :: Task
+{
+    result.name := self.name;
+    result.taskPartners += self.externalparticipant -> map ExternalParticipant2Partner();
+    result.taskPartners += self.notavailable -> select (n : NotAvailable | n.surname -> isEmpty()).map NotAvailable2Partner();
+    result.internalMember += self.internalparticipant -> select(i : InternalParticipant | i.participant.meeting.name.substringAfter("_") = result.workpackage.name).map InternalParticipant2Person();
+}

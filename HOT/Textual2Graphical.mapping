@@ -1,0 +1,96 @@
+MappingModel "Textual2Graphical"
+SourceMetamodels { "hclScope" hclScope }
+TargetMetamodels { "statemach" statemach }
+MappingRules {
+	"StateMachine2StateMachine"
+	source hclScope.StateMachine target statemach.StateMachine
+	condition "self.states -> size() = 1" { "states2top"
+		source hclScope.StateMachine.states target statemach.StateMachine.top
+		condition "first()"; "name2name"
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "StateMachine2StateMachine"
+	source hclScope.StateMachine target statemach.StateMachine { "null2top"
+		target statemach.StateMachine.top{ "states2substates"
+			source hclScope.StateMachine.states target statemach.CompositeState.substates ; "junction2junctionPoints"
+			source hclScope.StateMachine.junction target statemach.CompositeState.junctionPoints ; "choice2choicePoints"
+			source hclScope.StateMachine.choice target statemach.CompositeState.choicePoints ; "transition2transitions"
+			source hclScope.StateMachine.transition target statemach.CompositeState.transitions ; "initialtransition2transitions"
+			source hclScope.StateMachine.initialtransition target statemach.CompositeState.transitions
+		} ;  "name2name"
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "State2CompositeState"
+	source hclScope.State target statemach.CompositeState
+	condition "not(self.states -> isEmpty()) or not(self.entrypoint -> isEmpty()) or not(self.exitpoint -> isEmpty())  or not(self.junction -> isEmpty()  and self.choice -> isEmpty())" {
+		source hclScope.State.states target statemach.CompositeState.substates;
+		source hclScope.State.junction target statemach.CompositeState.junctionPoints;
+		source hclScope.State.choice target statemach.CompositeState.choicePoints;
+		source hclScope.State.entrypoint target statemach.State.entryPoints;
+		source hclScope.State.exitpoint target statemach.State.exitPoints;
+		source hclScope.State.internaltransition target statemach.CompositeState.transitions operator add;
+		source hclScope.State.transition target statemach.CompositeState.transitions operator add;
+		source hclScope.State.historytransition target statemach.CompositeState.transitions operator add;
+		source hclScope.State.initialtransition target statemach.CompositeState.transitions operator add;
+		source hclScope.State.initialtransition{
+			source hclScope.InitialTransition.initialstate target statemach.CompositeState.initial};
+		source hclScope.State.historytransition {
+			source hclScope.HistoryTransition.to target statemach.CompositeState.deepHistory
+			condition "first()"}}; "State2SimpleState"
+	source hclScope.State target statemach.SimpleState
+	condition "self.states -> isEmpty() and self.entrypoint -> isEmpty() and self.exitpoint -> isEmpty()  and self.junction -> isEmpty()  and self.choice -> isEmpty()"; "State2State"
+	source hclScope.State target statemach.State; "Junction2JunctionPoint"
+	source hclScope.Junction target statemach.JunctionPoint {
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "Choice2ChoicePoint"
+	source hclScope.Choice target statemach.ChoicePoint {
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "EntryPoint2EntryPoint"
+	source hclScope.EntryPoint target statemach.EntryPoint {
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "ExitPoint2ExitPoint"
+	source hclScope.ExitPoint target statemach.ExitPoint {
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "DeepHistory2DeepHistory"
+	source hclScope.DeepHistory target statemach.DeepHistory {
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "InitialState2InitialPoint"
+	source hclScope.InitialState target statemach.InitialPoint 
+		{
+		source hclScope.StateMachine.name target hclScope.StateMachine.name}; "Transitions2Transition"
+	source hclScope.Transitions target statemach.Transition {
+		source hclScope.TransitionBody.transitionguard target statemach.Transition.guard;
+		source hclScope.TransitionBody.methodparameter target statemach.Transition.triggers
+				operator add;
+		source hclScope.TransitionBody.portevent target statemach.Transition.triggers operator add ;
+		source hclScope.TransitionBody.trigger target statemach.Transition.triggers
+				operator add;
+		source hclScope.TransitionBody.transitionoperation target statemach.Transition.actionChain;
+		source common.NamedElement.name target hclScope.StateMachine.name}; "InitialTransition2Transition"
+	source hclScope.InitialTransition target statemach.Transition {
+		source hclScope.InitialTransition.initialstate target statemach.Transition.sourceVertex;
+		source hclScope.InitialTransition.initialto target statemach.Transition.targetVertex}; "HistoryTransition2Transition"
+	source hclScope.HistoryTransition target statemach.Transition {
+		source hclScope.HistoryTransition.from target statemach.Transition.sourceVertex;
+		source hclScope.HistoryTransition.to target statemach.Transition.targetVertex}; "Transition2Transition"
+	source hclScope.Transition target statemach.Transition {
+		source hclScope.Transition.from target statemach.Transition.sourceVertex;
+		source hclScope.Transition.to target statemach.Transition.targetVertex}; "InternalTransition2Transition"
+	source hclScope.InternalTransition target statemach.Transition; "Vertex2Vertex"
+	source hclScope.Vertex target statemach.Vertex {
+		source common.NamedElement.name target hclScope.StateMachine.name}; "InitialState2Vertex"
+	source hclScope.InitialState target statemach.Vertex; "TransitionGuard2Guard"
+	source hclScope.TransitionGuard target statemach.Guard {
+		source common.NamedElement.name target hclScope.StateMachine.name}; "Trigger2Trigger"
+	source hclScope.Trigger target statemach.Trigger {
+		source common.NamedElement.name target hclScope.StateMachine.name
+	}; "PortEventTrigger2Trigger"
+	source hclScope.PortEventTrigger target statemach.Trigger {
+		source hclScope.PortEventTrigger.port {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "+ (\'.\' + self.event.name)"
+		}
+	} ; "MethodParameterTrigger2Trigger"
+	source hclScope.MethodParameterTrigger target statemach.Trigger {
+		source hclScope.MethodParameterTrigger.method {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "+ (\'(\' + self.parameter.name + \')\')"
+		}
+	} ; "TransitionOperation2ActionChain"
+	source hclScope.TransitionOperation target statemach.ActionChain {
+		source common.NamedElement.name target hclScope.StateMachine.name
+	}; "InitialState2Pseudostate"
+	source hclScope.InitialState target statemach.Pseudostate; "DeepHistory2Vertex"
+	source hclScope.DeepHistory target statemach.Vertex
+}

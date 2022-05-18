@@ -1,0 +1,72 @@
+@namespace(uri="http://www.example.org/calendar", prefix="calendar")
+package calendar;
+
+class Calendar extends Person {
+	val Division[+] division;
+}
+
+class Division extends Person {
+	val ActiveMeeting[*]#division meeting;
+	val NonActiveMeeting[*]#division nonactivemeeting;
+	val NoTaskPersonnel[*]#division notaskpersonnel;
+}
+
+class ActiveMeeting extends Person, Meeting {
+	ref Division[1]#meeting division;
+}
+
+class InternalParticipant extends Person {
+	attr String surname;
+	ref Division participantsDivision;
+	ref Participant[1]#internalparticipant participant;
+	ref Item[*]#internalparticipant item;
+}
+
+class Agenda {
+	val Item[*] item;
+}
+
+abstract class Person {
+	attr String name;
+}
+
+class ExternalParticipant extends Person {
+	ref Participant[1]#externalparticipant participant;
+}
+
+class Participant {
+	val ExternalParticipant[*]#participant externalparticipant;
+	val InternalParticipant[*]#participant internalparticipant;
+	val NotAvailable[*]#participant notavailable;
+	ref Meeting[1]#participant meeting;
+}
+
+class Item extends Person {
+	ref ExternalParticipant[*] externalparticipant;
+	ref NotAvailable[+]#item notavailable;
+	ref InternalParticipant[*]#item internalparticipant;
+}
+
+class NotAvailable extends Person {
+	ref Participant[1]#notavailable participant;
+	ref Item[+]#notavailable item;
+	attr String surname;
+	ref Division[1] division;
+}
+
+class NonActiveMeeting extends Person, Meeting {
+	ref Division[1]#nonactivemeeting division;
+}
+
+class Meeting {
+	val Participant[*]#meeting participant;
+	val Agenda[1] agenda;
+	ref NonActiveMeeting nonactivemeeting;
+	ref ActiveMeeting activemeeting;
+}
+
+class NoTaskPersonnel extends Person {
+	ref Division[1]#notaskpersonnel division;
+	attr String surname;
+}
+

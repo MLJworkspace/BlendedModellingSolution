@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace:Trace xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:trace="http:///www.eclipse.org/m2m/qvt/operational/trace.ecore">
+  <traceRecords>
+    <mappingOperation name="Calendar2Organization" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Calendar">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#/"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Organization">
+        <value>
+          <modelElement href="Organization3.xmi#/"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="Division2Department" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Division">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Department">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="ActiveMeeting2WorkPackage" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="ActiveMeeting">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="WorkPackage">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@workpackage.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="Item2Task" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Item">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@agenda/@item.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Task">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@workpackage.0/@task.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NotAvailable2Partner" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NotAvailable">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@participant.0/@notavailable.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Partner">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@partner.1"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="Item2Task" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Item">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@agenda/@item.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Task">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@workpackage.0/@task.1"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="ExternalParticipant2Partner" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="ExternalParticipant">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@participant.0/@externalparticipant.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Partner">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@partner.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="ActiveMeeting2WorkPackage" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="ActiveMeeting">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="WorkPackage">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.0/@workpackage.1"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NonActiveMeeting2WorkPackage" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NonActiveMeeting">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@nonactivemeeting.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="WorkPackage">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.0/@project.1/@workpackage.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="Division2Department" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Division">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Department">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.1"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="ActiveMeeting2WorkPackage" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="ActiveMeeting">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1/@meeting.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="WorkPackage">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.1/@project.0/@workpackage.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="Item2Task" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="Item">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1/@meeting.0/@agenda/@item.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Task">
+        <value>
+          <modelElement href="Organization3.xmi#//@department.1/@project.0/@workpackage.0/@task.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="InternalParticipant2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="InternalParticipant">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@participant.0/@internalparticipant.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.0"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="InternalParticipant2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="InternalParticipant">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1/@meeting.0/@participant.0/@internalparticipant.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.1"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NoTaskPersonnel2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NoTaskPersonnel">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@notaskpersonnel.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.2"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NoTaskPersonnel2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NoTaskPersonnel">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@notaskpersonnel.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.3"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NoTaskPersonnel2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NoTaskPersonnel">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1/@notaskpersonnel.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.4"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NoTaskPersonnel2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NoTaskPersonnel">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.1/@notaskpersonnel.1"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.5"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+  <traceRecords>
+    <mappingOperation name="NotAvailable2Person" package="Calendar2Organization" module="Calendar2Organization"/>
+    <context>
+      <context name="self" type="NotAvailable">
+        <value>
+          <modelElement href="../../Calendar/model/Calendar.xmi#//@division.0/@meeting.0/@participant.0/@notavailable.0"/>
+        </value>
+      </context>
+    </context>
+    <parameters/>
+    <result>
+      <result kind="OUT" name="result" type="Person">
+        <value>
+          <modelElement href="Organization3.xmi#//@personnel.6"/>
+        </value>
+      </result>
+    </result>
+  </traceRecords>
+</trace:Trace>

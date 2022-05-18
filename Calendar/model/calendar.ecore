@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="calendar" nsURI="http://www.example.org/calendar" nsPrefix="calendar">
+  <eClassifiers xsi:type="ecore:EClass" name="Calendar" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="division" lowerBound="1"
+        upperBound="-1" eType="#//Division" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Division" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notaskpersonnel" upperBound="-1"
+        eType="#//NoTaskPersonnel" containment="true" eOpposite="#//NoTaskPersonnel/division"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="meeting" upperBound="-1"
+        eType="#//Meeting" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActiveMeeting" eSuperTypes="#//Person #//Meeting"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalParticipant" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantsDivision" eType="#//Division"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" lowerBound="1"
+        eType="#//Participant" eOpposite="#//Participant/internalparticipant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" upperBound="-1" eType="#//Item"
+        eOpposite="#//Item/internalparticipant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Agenda">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" upperBound="-1" eType="#//Item"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalParticipant" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" lowerBound="1"
+        eType="#//Participant" eOpposite="#//Participant/externalparticipant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" lowerBound="1" upperBound="-1"
+        eType="#//Item"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Participant">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalparticipant" upperBound="-1"
+        eType="#//ExternalParticipant" containment="true" eOpposite="#//ExternalParticipant/participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalparticipant" upperBound="-1"
+        eType="#//InternalParticipant" containment="true" eOpposite="#//InternalParticipant/participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notavailable" upperBound="-1"
+        eType="#//NotAvailable" containment="true" eOpposite="#//NotAvailable/participant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="meeting" lowerBound="1"
+        eType="#//Meeting" eOpposite="#//Meeting/participant"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Item" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalparticipant" upperBound="-1"
+        eType="#//ExternalParticipant"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="notavailable" lowerBound="1"
+        upperBound="-1" eType="#//NotAvailable" eOpposite="#//NotAvailable/item"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalparticipant" upperBound="-1"
+        eType="#//InternalParticipant" eOpposite="#//InternalParticipant/item"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NotAvailable" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" lowerBound="1"
+        eType="#//Participant" eOpposite="#//Participant/notavailable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="item" lowerBound="1" upperBound="-1"
+        eType="#//Item" eOpposite="#//Item/notavailable"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="division" lowerBound="1"
+        eType="#//Division"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NonActiveMeeting" eSuperTypes="#//Person #//Meeting"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Meeting" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participant" upperBound="-1"
+        eType="#//Participant" containment="true" eOpposite="#//Participant/meeting"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="agenda" lowerBound="1"
+        eType="#//Agenda" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NoTaskPersonnel" eSuperTypes="#//Person">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="division" lowerBound="1"
+        eType="#//Division" eOpposite="#//Division/notaskpersonnel"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

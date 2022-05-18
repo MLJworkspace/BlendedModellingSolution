@@ -1,0 +1,81 @@
+MappingModel "Organization2Cal"
+SourceMetamodels{ organization }
+TargetMetamodels{ calendar }
+MappingRules{
+	source  organization.Organization target calendar.Calendar  {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Organization.department target calendar.Calendar.division
+	};
+	source organization.Department target calendar.Division  {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Organization.personnel target calendar.Division.notaskpersonnel
+		operator add
+		condition "select (p : Person | p.department.name = self.name and p.task -> isEmpty())";
+		source organization.Department.project{
+			source organization.Project.workpackage target calendar.Division.meeting
+		}
+	} ;
+	source organization.WorkPackage target calendar.ActiveMeeting
+	condition "self.status = Status::ACTIVE";
+	source organization.WorkPackage target calendar.NonActiveMeeting
+	condition "self.status = Status::NONACTIVE";
+	source organization.Partner target calendar.NotAvailable
+	condition "self.availability = Availability :: ONVACATION" {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Partner.task target calendar.NotAvailable.item
+	};
+	source organization.Person target calendar.NoTaskPersonnel
+	condition "self.task -> isEmpty()" {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Person.surname target calendar.NotAvailable.surname;
+		source organization.Person.department target calendar.NotAvailable.division
+	};
+	source organization.Person target calendar.NotAvailable
+	condition "self.availability = Availability :: ONVACATION" {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Person.surname target calendar.NotAvailable.surname
+	;
+		source organization.Person.department target calendar.NotAvailable.division
+	} ;
+	source organization.Task target calendar.Item {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Task.taskPartners target calendar.Item.externalparticipant;
+		source organization.Task.internalMember target calendar.Item.internalparticipant
+		condition "select (p:Person | p.availability = Availability :: AVAILABLE)";
+		source organization.Task.internalMember target calendar.Item.notavailable
+		condition "select (p:Person | p.availability = Availability :: ONVACATION)"
+	};
+	source organization.Person target calendar.InternalParticipant
+	condition "self.availability = Availability :: AVAILABLE" {
+		source organization.NamedElement.name target calendar.Person.name;
+		source organization.Person.surname target calendar.InternalParticipant.surname;
+		source organization.Person.department target calendar.InternalParticipant.participantsDivision
+	};
+	source   organization.Partner target calendar.ExternalParticipant
+	condition "self.availability = Availability :: AVAILABLE" {
+		source organization.NamedElement.name target calendar.Person.name
+	;
+		source organization.Partner.task target calendar.NotAvailable.item
+	} ;
+	source organization.WorkPackage target calendar.Meeting {
+		source organization.WorkPackage.project {
+			source organization.NamedElement.name target calendar.Person.name
+			condition "+(\"_\" + self.name)"
+		}
+	} {
+	statement "if (not self.task -> isEmpty())" {
+		target calendar.Meeting.agenda {
+			source organization.WorkPackage.task target calendar.Agenda.item
+		}
+	} ;
+	statement "if ((not self.task.taskPartners -> isEmpty()) or (not self.task.internalMember -> isEmpty()))" {
+		target calendar.Meeting.participant {
+			source organization.WorkPackage.task {
+				source organization.Task.taskPartners target calendar.Participant.externalparticipant operator add ;
+				source organization.Task.taskPartners target calendar.Participant.notavailable operator add ;
+				source organization.Task.internalMember target calendar.Participant.internalparticipant operator add ;
+				source organization.Task.internalMember target calendar.Participant.notavailable operator add
+			}
+		}
+	} }
+}

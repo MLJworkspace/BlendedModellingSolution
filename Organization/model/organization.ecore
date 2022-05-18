@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="organization" nsURI="http://www.example.org/organization" nsPrefix="organization">
+  <eClassifiers xsi:type="ecore:EClass" name="Organization" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="personnel" lowerBound="1"
+        upperBound="-1" eType="#//Person" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" lowerBound="1"
+        upperBound="-1" eType="#//Department" containment="true" eOpposite="#//Department/organization"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Department" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="organization" lowerBound="1"
+        eType="#//Organization" eOpposite="#//Organization/department"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" upperBound="-1"
+        eType="#//Project" containment="true" eOpposite="#//Project/department"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Person" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" lowerBound="1"
+        eType="#//Department"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="surname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="availability" eType="#//Availability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" upperBound="-1" eType="#//Task"
+        eOpposite="#//Task/internalMember"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Project" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workpackage" upperBound="-1"
+        eType="#//WorkPackage" containment="true" eOpposite="#//WorkPackage/project"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partner" upperBound="-1"
+        eType="#//Partner" containment="true" eOpposite="#//Partner/project"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="department" lowerBound="1"
+        eType="#//Department" eOpposite="#//Department/project"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkPackage" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" eType="#//Status"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+        eType="#//Project" eOpposite="#//Project/workpackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" lowerBound="1" upperBound="-1"
+        eType="#//Task" containment="true" eOpposite="#//Task/workpackage"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workpackage" lowerBound="1"
+        eType="#//WorkPackage" eOpposite="#//WorkPackage/task"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalMember" upperBound="-1"
+        eType="#//Person" eOpposite="#//Person/task"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskPartners" upperBound="-1"
+        eType="#//Partner" eOpposite="#//Partner/task"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Partner" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="availability" eType="#//Availability"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="project" lowerBound="1"
+        eType="#//Project" eOpposite="#//Project/partner"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="task" upperBound="-1" eType="#//Task"
+        eOpposite="#//Task/taskPartners"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Status">
+    <eLiterals name="ACTIVE"/>
+    <eLiterals name="NONACTIVE" value="1" literal="NONACTIVE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Availability">
+    <eLiterals name="AVAILABLE"/>
+    <eLiterals name="ONVACATION" value="1" literal="ONVACATION"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,101 @@
+MappingModel "Graphical2Textual"
+SourceMetamodels { statemach }
+TargetMetamodels { hclScope }
+MappingRules {
+	""
+	source statemach.StateMachine target hclScope.StateMachine {
+		source statemach.StateMachine.top target hclScope.StateMachine.states;
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.CompositeState target hclScope.State {
+		source statemach.State.exitPoints target hclScope.State.exitpoint;
+		source statemach.State.entryPoints target hclScope.State.entrypoint;
+		source statemach.CompositeState.choicePoints target hclScope.StateMachine.choice;
+		source statemach.CompositeState.junctionPoints target hclScope.StateMachine.junction;
+		source statemach.CompositeState.substates target hclScope.StateMachine.states;
+		source statemach.CompositeState.transitions target hclScope.StateMachine.transition;
+		source statemach.CompositeState.transitions target hclScope.StateMachine.initialtransition
+		condition "any(e | e.sourceVertex.oclIsTypeOf(InitialPoint))";
+		source statemach.CompositeState.transitions target hclScope.State.historytransition;
+		source statemach.CompositeState.transitions target hclScope.State.internaltransition ;
+	};
+	source statemach.SimpleState target hclScope.State ;
+	source statemach.EntryPoint target hclScope.EntryPoint ;
+	source statemach.ExitPoint target hclScope.ExitPoint ;
+	source statemach.ChoicePoint target hclScope.Choice;
+	source statemach.JunctionPoint target hclScope.Junction;
+	source statemach.Transition target hclScope.Transitions {
+		target hclScope.InternalTransition.transitionbody {
+			source statemach.Transition.guard target hclScope.TransitionBody.transitionguard;
+			source statemach.Transition.actionChain target hclScope.TransitionBody.transitionoperation ;
+			source statemach.Transition.triggers target hclScope.TransitionBody.portevent
+			condition "any(e | e.name.matches(\".*\\\\..*\"))" ;
+			source statemach.Transition.triggers target hclScope.TransitionBody.methodparameter
+			condition "any(e | e.name.matches(\".*\\\\(.*\"))" ;
+			source statemach.Transition.triggers target hclScope.TransitionBody.trigger
+		};
+		source common.NamedElement.name target hclScope.StateMachine.name
+	};
+	source statemach.Transition target hclScope.Transition
+	condition "not(self.sourceVertex.oclIsTypeOf(InitialPoint) or self.targetVertex.oclIsTypeOf(statemach::DeepHistory) or self.sourceVertex = null or self.targetVertex = null)" {
+		source statemach.Transition.sourceVertex target hclScope.Transition.from;
+		source statemach.Transition.targetVertex target hclScope.Transition.to
+	};
+	source statemach.Transition target hclScope.HistoryTransition
+	condition "self.targetVertex.oclIsTypeOf(statemach::DeepHistory)" {
+		source statemach.Transition.sourceVertex target hclScope.Transition.from;
+		source statemach.Transition.targetVertex target hclScope.HistoryTransition.to
+	};
+	source statemach.Transition target hclScope.InitialTransition
+	condition "self.sourceVertex.oclIsTypeOf(InitialPoint)" {
+		source statemach.Transition.sourceVertex target hclScope.InitialTransition.initialstate;
+		source statemach.Transition.targetVertex target hclScope.InitialTransition.initialto
+	};
+	source statemach.Transition target hclScope.InternalTransition
+	condition "self.sourceVertex = null and self.targetVertex = null" {
+		source common.NamedElement.name target hclScope.StateMachine.name
+	};
+	source statemach.Guard target hclScope.TransitionGuard {
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.ActionChain target hclScope.TransitionOperation {
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.Trigger target hclScope.Trigger
+	condition "not(self.name.matches(\".*\\\\(.*\") or self.name.matches(\".*\\\\..*\"))" {
+		source common.NamedElement.name target hclScope.StateMachine.name
+	};
+	source statemach.Trigger target hclScope.PortEventTrigger
+	condition "self.name.matches(\".*\\\\..*\")" {
+		target hclScope.PortEventTrigger.port {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "substringBefore(\".\")";
+		};
+		target hclScope.PortEventTrigger.event {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "substringAfter(\".\")";
+		}
+	};
+	source statemach.Trigger target hclScope.MethodParameterTrigger
+	condition "self.name.matches(\".*\\\\(.*\")" {
+		target hclScope.MethodParameterTrigger.method {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "substringBefore(\"(\")";
+		};
+		target hclScope.MethodParameterTrigger.parameter {
+			source common.NamedElement.name target hclScope.StateMachine.name
+			condition "substring(self.name.indexOf(\"(\") + 1, self.name.indexOf(\")\") -1)";
+		};
+	};
+	source statemach.State target hclScope.State;
+	source statemach.Vertex target hclScope.Vertex {
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.Vertex target hclScope.InitialState {
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.Vertex target hclScope.DeepHistory {
+		source common.NamedElement.name target hclScope.StateMachine.name;
+	};
+	source statemach.Pseudostate target hclScope.Vertex
+}

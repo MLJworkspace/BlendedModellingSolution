@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organization:Organization xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:organization="http://www.example.org/organization" name="MDU">
+  <personnel name="Radu " department="//@department.0" surname="Dobrin"/>
+  <personnel name="eshte" department="//@department.0" surname="kot"/>
+  <personnel name="Saad" department="//@department.1" surname="Mubeen"/>
+  <personnel name="cristina" department="//@department.1" surname="seceleanu"/>
+  <personnel name="Federico " surname="Ciccozzi" availability="ONVACATION" task="//@department.0/@project.0/@workpackage.0/@task.1"/>
+  <personnel name="Malvina " department="//@department.0" surname="Latifaj" task="//@department.0/@project.0/@workpackage.0/@task.0"/>
+  <personnel name="Svetlana" department="//@department.1" surname="Girs" task="//@department.1/@project.0/@workpackage.0/@task.0"/>
+  <department name="CSE">
+    <project name="BUMBLE">
+      <workpackage name="WP1">
+        <task name="Generation of textual editors" internalMember="//@personnel.5" taskPartners="//@department.0/@project.0/@partner.0"/>
+        <task name="Synchronization mechanisms" internalMember="//@personnel.4" taskPartners="//@department.0/@project.0/@partner.1"/>
+      </workpackage>
+      <workpackage name="WP2"/>
+      <partner name="HCL" availability="ONVACATION" task="//@department.0/@project.0/@workpackage.0/@task.0"/>
+      <partner name="VOLVO" task="//@department.0/@project.0/@workpackage.0/@task.1"/>
+    </project>
+    <project name="HERO">
+      <workpackage name="KOT"/>
+    </project>
+  </department>
+  <department name="NES">
+    <project name="S">
+      <workpackage name="WP1">
+        <task name="taskusvetlanes" internalMember="//@personnel.6"/>
+      </workpackage>
+    </project>
+  </department>
+</organization:Organization>

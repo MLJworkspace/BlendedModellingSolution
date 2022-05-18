@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hclScope:StateMachine xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:hclScope="http://www.xtext.org/example/hclscope/HclScope" name="SM">
+  <states name="TopState">
+    <states name="A">
+      <entrypoint name="entry1"/>
+      <entrypoint name="entry2"/>
+      <exitpoint name="exit1"/>
+      <states name="B"/>
+      <states name="C"/>
+      <states name="D"/>
+      <choice name="CH1"/>
+      <transition name="T1" from="//@states.0/@states.0/@entrypoint.0" to="//@states.0/@states.0/@states.0">
+        <transitionbody/>
+      </transition>
+      <transition name="T2" from="//@states.0/@states.0/@states.0" to="//@states.0/@states.0/@choice.0">
+        <transitionbody/>
+      </transition>
+      <transition name="T3" from="//@states.0/@states.0/@choice.0" to="//@states.0/@states.0/@states.1">
+        <transitionbody>
+          <transitionguard name="x>=0"/>
+        </transitionbody>
+      </transition>
+      <transition name="T4" from="//@states.0/@states.0/@choice.0" to="//@states.0/@states.0/@states.2">
+        <transitionbody/>
+      </transition>
+      <historytransition name="T7" from="//@states.0/@states.0/@entrypoint.1">
+        <transitionbody/>
+        <to name="H"/>
+      </historytransition>
+    </states>
+    <states name="E"/>
+    <initialtransition name="T0" initialto="//@states.0/@states.0/@entrypoint.0">
+      <transitionbody/>
+      <initialstate name="Start"/>
+    </initialtransition>
+    <transition name="T5" from="//@states.0/@states.0/@exitpoint.0" to="//@states.0/@states.1">
+      <transitionbody/>
+    </transition>
+    <transition name="T6" from="//@states.0/@states.1" to="//@states.0/@states.0/@entrypoint.1">
+      <transitionbody>
+        <methodparameter>
+          <method name="method"/>
+          <parameter name="parameter"/>
+        </methodparameter>
+      </transitionbody>
+    </transition>
+  </states>
+</hclScope:StateMachine>

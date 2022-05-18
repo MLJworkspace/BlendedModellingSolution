@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar:Calendar xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:calendar="http://www.example.org/calendar" name="MDU">
+  <division name="CSE">
+    <notaskpersonnel name="Radu " surname="Dobrin"/>
+    <notaskpersonnel name="eshte" surname="kot"/>
+    <meeting name="BUMBLE_WP1">
+      <participant>
+        <externalparticipant name="VOLVO"/>
+        <internalparticipant name="Malvina " surname="Latifaj" participantsDivision="//@division.0" item="//@division.0/@meeting.0/@agenda/@item.0"/>
+        <notavailable name="Federico " item="//@division.0/@meeting.0/@agenda/@item.1" surname="Ciccozzi"/>
+        <notavailable name="HCL" item="//@division.0/@meeting.0/@agenda/@item.0"/>
+      </participant>
+      <agenda>
+        <item name="Generation of textual editors" notavailable="//@division.0/@meeting.0/@participant.0/@notavailable.1" internalparticipant="//@division.0/@meeting.0/@participant.0/@internalparticipant.0"/>
+        <item name="Synchronization mechanisms" externalparticipant="//@division.0/@meeting.0/@participant.0/@externalparticipant.0" notavailable="//@division.0/@meeting.0/@participant.0/@notavailable.0"/>
+      </agenda>
+    </meeting>
+    <meeting name="BUMBLE_WP2"/>
+    <meeting name="HERO_KOT"/>
+  </division>
+  <division name="NES">
+    <notaskpersonnel name="Saad" surname="Mubeen"/>
+    <notaskpersonnel name="cristina" surname="seceleanu"/>
+    <meeting name="S_WP1">
+      <participant>
+        <internalparticipant name="Svetlana" surname="Girs" participantsDivision="//@division.1" item="//@division.1/@meeting.0/@agenda/@item.0"/>
+      </participant>
+      <agenda>
+        <item name="taskusvetlanes" internalparticipant="//@division.1/@meeting.0/@participant.0/@internalparticipant.0"/>
+      </agenda>
+    </meeting>
+  </division>
+</calendar:Calendar>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar:Calendar xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:calendar="http://www.example.org/calendar" name="MDU">
+  <division name="CSE">
+    <notaskpersonnel name="Radu" surname="Dobrin"/>
+    <meeting xsi:type="calendar:ActiveMeeting" name="BUMBLE_WP1">
+      <participant>
+        <externalparticipant name="VOLVO"/>
+        <internalparticipant name="Malvina" surname="Latifaj" participantsDivision="//@division.0" item="//@division.0/@meeting.0/@agenda/@item.0"/>
+        <notavailable name="Federico " item="//@division.0/@meeting.0/@agenda/@item.0" surname="Ciccozzi" division="//@division.0"/>
+        <notavailable name="HCL" item="//@division.0/@meeting.0/@agenda/@item.0"/>
+      </participant>
+      <agenda>
+        <item name="Generation of textual editors" externalparticipant="//@division.0/@meeting.0/@participant.0/@externalparticipant.0" notavailable="//@division.0/@meeting.0/@participant.0/@notavailable.0 //@division.0/@meeting.0/@participant.0/@notavailable.1" internalparticipant="//@division.0/@meeting.0/@participant.0/@internalparticipant.0"/>
+      </agenda>
+    </meeting>
+    <meeting xsi:type="calendar:NonActiveMeeting" name="BUMBLE_WP2">
+      <participant>
+        <externalparticipant name="MANTIS"/>
+        <internalparticipant name="Federico" surname="Ciccozi" participantsDivision="//@division.0" item="//@division.0/@meeting.1/@agenda/@item.0"/>
+      </participant>
+      <agenda>
+        <item name="Synchronization mechanisms" externalparticipant="//@division.0/@meeting.1/@participant.0/@externalparticipant.0" internalparticipant="//@division.0/@meeting.1/@participant.0/@internalparticipant.0"/>
+      </agenda>
+    </meeting>
+    <meeting xsi:type="calendar:ActiveMeeting" name="HERO_WP1"/>
+    <meeting xsi:type="calendar:NonActiveMeeting" name="HERO_WP2"/>
+  </division>
+  <division name="NES">
+    <meeting xsi:type="calendar:ActiveMeeting" name="S_WP1">
+      <participant>
+        <internalparticipant name="Svetlana" surname="Girs" item="//@division.1/@meeting.0/@agenda/@item.0"/>
+      </participant>
+      <agenda>
+        <item name="hajtkot" internalparticipant="//@division.1/@meeting.0/@participant.0/@internalparticipant.0"/>
+      </agenda>
+    </meeting>
+  </division>
+</calendar:Calendar>

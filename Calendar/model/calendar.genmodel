@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/Calendar/src-gen" creationIcons="false" editDirectory="/Calendar.edit/src-gen"
+    editorDirectory="/Calendar.editor/src-gen" modelPluginID="Calendar" modelName="Calendar"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>calendar.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Calendar" disposableProviderFactory="true" ecorePackage="calendar.ecore#/">
+    <genClasses ecoreClass="calendar.ecore#//Calendar">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference calendar.ecore#//Calendar/division"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//Division">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Division/notaskpersonnel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference calendar.ecore#//Division/meeting"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//ActiveMeeting"/>
+    <genClasses ecoreClass="calendar.ecore#//InternalParticipant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute calendar.ecore#//InternalParticipant/surname"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//InternalParticipant/participantsDivision"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//InternalParticipant/participant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//InternalParticipant/item"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//Agenda">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference calendar.ecore#//Agenda/item"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//Person">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute calendar.ecore#//Person/name"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//ExternalParticipant">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//ExternalParticipant/participant"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//Participant">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Participant/externalparticipant"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Participant/internalparticipant"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Participant/notavailable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Participant/meeting"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//Item">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Item/externalparticipant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Item/notavailable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Item/internalparticipant"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//NotAvailable">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//NotAvailable/participant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//NotAvailable/item"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute calendar.ecore#//NotAvailable/surname"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//NotAvailable/division"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//NonActiveMeeting"/>
+    <genClasses ecoreClass="calendar.ecore#//Meeting">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//Meeting/participant"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference calendar.ecore#//Meeting/agenda"/>
+    </genClasses>
+    <genClasses ecoreClass="calendar.ecore#//NoTaskPersonnel">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference calendar.ecore#//NoTaskPersonnel/division"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute calendar.ecore#//NoTaskPersonnel/surname"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

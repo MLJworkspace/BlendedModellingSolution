@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/Organization/src-gen" creationIcons="false" editDirectory="/Organization.edit/src-gen"
+    editorDirectory="/Organization.editor/src-gen" modelPluginID="Organization" modelName="Organization"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>organization.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Organization" disposableProviderFactory="true" ecorePackage="organization.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="organization.ecore#//Status">
+      <genEnumLiterals ecoreEnumLiteral="organization.ecore#//Status/ACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="organization.ecore#//Status/NONACTIVE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="organization.ecore#//Availability">
+      <genEnumLiterals ecoreEnumLiteral="organization.ecore#//Availability/AVAILABLE"/>
+      <genEnumLiterals ecoreEnumLiteral="organization.ecore#//Availability/ONVACATION"/>
+    </genEnums>
+    <genClasses ecoreClass="organization.ecore#//Organization">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference organization.ecore#//Organization/personnel"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Organization/department"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//Department">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Department/organization"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Department/project"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//Person">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Person/department"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute organization.ecore#//Person/surname"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute organization.ecore#//Person/availability"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Person/task"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//Project">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Project/workpackage"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Project/partner"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Project/department"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//WorkPackage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute organization.ecore#//WorkPackage/status"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//WorkPackage/project"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//WorkPackage/task"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//Task">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Task/workpackage"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Task/internalMember"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Task/taskPartners"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//Partner">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute organization.ecore#//Partner/availability"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Partner/project"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference organization.ecore#//Partner/task"/>
+    </genClasses>
+    <genClasses ecoreClass="organization.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute organization.ecore#//NamedElement/name"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
