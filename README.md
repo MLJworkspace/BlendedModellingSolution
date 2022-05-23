@@ -4,6 +4,27 @@ In the following you can find a demo of the tool. Because of the size restrictio
 
 https://user-images.githubusercontent.com/75987636/169057772-762b873d-ca4a-428b-ba0c-378ca780b9d1.mp4
 
+**WHAT IS INCLUDED**
+
+- MAPPING MODELING LANGUAGE
+
+  - org.xtext.example.mapping.(...) files - Mapping Modeling Language <br/>
+
+- HIGHER-ORDER TANSFORMATIONS
+
+  - HOT - Contains the Xtend file and mapping models that are used for the validation.
+
+- GENERATED TRANSFORMATIONS
+
+  - GeneratedTransformations - Contains the QVTo transformations that are generated after the execution of HOTs for each mapping model in sub-folder transforms, and the models that are used for the validation of the generated transformations in sub-folder.
+
+- VALIDATION 
+
+  - org.xtext.hclscope.(...) files - Textual syntax for UML-RT state machines <br/>
+  - Papyrus - Graphical syntax for UML-RT state machines <br/>
+  - Calendar <br/>
+  - Organization
+
 **INSTALLATION REQUIREMENTS**
 
 To run the implementation we suggest you install the following:
