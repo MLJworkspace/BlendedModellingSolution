@@ -1,6 +1,6 @@
 # BlendedModellingSolution
 
-In the following you can find a demo of the tool. Because of the size restrictions from GitHub, we have uploaded a low quality video. However, in the following link, you can access it in high quality.
+In the following you can find a demo of the tool. Because of the size restrictions from GitHub, we have uploaded a low quality video. However, in this [link](https://drive.google.com/file/d/1JRJK2awGaIP1WcR7L377BEw_dQR7afmY/view?usp=sharing), you can access it in high quality.
 
 https://user-images.githubusercontent.com/75987636/169057772-762b873d-ca4a-428b-ba0c-378ca780b9d1.mp4
 
